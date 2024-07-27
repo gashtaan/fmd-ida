@@ -157,7 +157,7 @@ class fmd_processor_t(processor_t):
 		for i in range(4):
 			op = insn.ops[i]
 			if op.type == o_mem:
-				op_ea = self.data_seg.startEA + op.addr
+				op_ea = self.data_seg.start_ea + op.addr
 				insn.add_dref(op_ea, op.offb, dr_R)
 				insn.create_op_data(op_ea, op)
 
@@ -190,7 +190,7 @@ class fmd_processor_t(processor_t):
 		elif op.type == o_imm:
 			ctx.out_value(op, OOFW_IMM | OOFW_8)
 		elif op.type == o_mem:
-			ctx.out_name_expr(op, self.data_seg.startEA + op.addr, BADADDR)
+			ctx.out_name_expr(op, self.data_seg.start_ea + op.addr, BADADDR)
 		elif op.type == o_near:
 			ctx.out_name_expr(op, op.addr, BADADDR)
 		else:
@@ -318,7 +318,7 @@ class fmd_processor_t(processor_t):
 			data_base = data_addr - data_offset
 
 			self.data_seg = segment_t()
-			self.data_seg.startEA = data_addr
+			self.data_seg.start_ea = data_addr
 			self.data_seg.endEA = data_addr + data_size
 			self.data_seg.sel = setup_selector(data_base >> 4)
 			self.data_seg.type = SEG_IMEM
