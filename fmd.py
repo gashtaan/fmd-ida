@@ -28,19 +28,19 @@ class fmd_processor_t(processor_t):
 	tbyte_size = 0
 
 	assembler = {
-		"flag": ASH_HEXF2 | ASD_DECF3 | ASB_BINF5 | ASO_OCTF5 | AS_N2CHR | AS_NCMAS | AS_ONEDUP,
-		"uflag": 0,
-		"name": "FMD Assembler",
-		"origin": "org",
-		"end": "end",
-		"cmnt": ";",
-		"ascsep": '"',
-		"accsep": "'",
-		"esccodes": "\"'",
-		"a_ascii": "data",
-		"a_byte": "byte",
-		"a_word": "data",
-		"a_dups": "res %s",
+		"flag" : ASH_HEXF2 | ASD_DECF3 | ASB_BINF5 | ASO_OCTF5 | AS_N2CHR | AS_NCMAS | AS_ONEDUP,
+		"uflag" : 0,
+		"name" : "FMD Assembler",
+		"origin" : "org",
+		"end" : "end",
+		"cmnt" : ";",
+		"ascsep" : "\"",
+		"accsep" : "'",
+		"esccodes" : "\"'",
+		"a_ascii" : "data",
+		"a_byte" : "byte",
+		"a_word" : "data",
+		"a_dups" : "res %s",
 		"a_equ" : "equ",
 		"a_curip" : "$",
 		"a_bss" : "res %s",
@@ -50,15 +50,15 @@ class fmd_processor_t(processor_t):
 		"a_extrn" : "",
 		"a_comdef" : "",
 		"a_align" : "",
-		"a_mod": "%",
-		"a_band": "&",
-		"a_bor": "|",
-		"a_xor": "^",
-		"a_bnot": "~",
-		"a_shl": "<<",
-		"a_shr": ">>",
-		"lbrace": "(",
-		"rbrace": ")",
+		"a_mod" : "%",
+		"a_band" : "&",
+		"a_bor" : "|",
+		"a_xor" : "^",
+		"a_bnot" : "~",
+		"a_shl" : "<<",
+		"a_shr" : ">>",
+		"lbrace" : "(",
+		"rbrace" : ")",
 	}
 
 	reg_names = [
@@ -71,51 +71,51 @@ class fmd_processor_t(processor_t):
 	]
 
 	instruc = [
-		{ 'name' : 'null',		'feature' : 0 },
-		{ 'name' : 'nop',		'feature' : 0 },
-		{ 'name' : 'clrwdt',	'feature' : 0 },
-		{ 'name' : 'sleep',		'feature' : 0 },
-		{ 'name' : 'sttmd',		'feature' : 0 },
-		{ 'name' : 'ret',		'feature' : CF_STOP },
-		{ 'name' : 'ctlio',		'feature' : 0 },
-		{ 'name' : 'clrw',		'feature' : 0 },
-		{ 'name' : 'reti',		'feature' : CF_STOP },
-		{ 'name' : 'clrr',		'feature' : 0 },
-		{ 'name' : 'str',		'feature' : 0 },
-		{ 'name' : 'andwr',		'feature' : 0 },
-		{ 'name' : 'iorwr',		'feature' : 0 },
-		{ 'name' : 'xorwr',		'feature' : 0 },
-		{ 'name' : 'rlr',		'feature' : 0 },
-		{ 'name' : 'rrr',		'feature' : 0 },
-		{ 'name' : 'swapr',		'feature' : 0 },
-		{ 'name' : 'ldr',		'feature' : 0 },
-		{ 'name' : 'incr',		'feature' : 0 },
-		{ 'name' : 'incrsz',	'feature' : 0 },
-		{ 'name' : 'addwr',		'feature' : 0 },
-		{ 'name' : 'subwr',		'feature' : 0 },
-		{ 'name' : 'decr',		'feature' : 0 },
-		{ 'name' : 'decrsz',	'feature' : 0 },
-		{ 'name' : 'comr',		'feature' : 0 },
-		{ 'name' : 'bcr',		'feature' : 0 },
-		{ 'name' : 'btsc',		'feature' : 0 },
-		{ 'name' : 'bsr',		'feature' : 0 },
-		{ 'name' : 'btss',		'feature' : 0 },
-		{ 'name' : 'retw',		'feature' : CF_STOP },
-		{ 'name' : 'andwi',		'feature' : 0 },
-		{ 'name' : 'iorwi',		'feature' : 0 },
-		{ 'name' : 'xorwi',		'feature' : 0 },
-		{ 'name' : 'addwi',		'feature' : 0 },
-		{ 'name' : 'subwi',		'feature' : 0 },
-		{ 'name' : 'ldwi',		'feature' : 0 },
-		{ 'name' : 'lcall',		'feature' : 0 },
-		{ 'name' : 'ljump',		'feature' : 0 },
+		{ "name" : "null",		"feature" : 0 },
+		{ "name" : "nop",		"feature" : 0 },
+		{ "name" : "clrwdt",	"feature" : 0 },
+		{ "name" : "sleep",		"feature" : 0 },
+		{ "name" : "sttmd",		"feature" : 0 },
+		{ "name" : "ret",		"feature" : CF_STOP },
+		{ "name" : "ctlio",		"feature" : 0 },
+		{ "name" : "clrw",		"feature" : 0 },
+		{ "name" : "reti",		"feature" : CF_STOP },
+		{ "name" : "clrr",		"feature" : 0 },
+		{ "name" : "str",		"feature" : 0 },
+		{ "name" : "andwr",		"feature" : 0 },
+		{ "name" : "iorwr",		"feature" : 0 },
+		{ "name" : "xorwr",		"feature" : 0 },
+		{ "name" : "rlr",		"feature" : 0 },
+		{ "name" : "rrr",		"feature" : 0 },
+		{ "name" : "swapr",		"feature" : 0 },
+		{ "name" : "ldr",		"feature" : 0 },
+		{ "name" : "incr",		"feature" : 0 },
+		{ "name" : "incrsz",	"feature" : 0 },
+		{ "name" : "addwr",		"feature" : 0 },
+		{ "name" : "subwr",		"feature" : 0 },
+		{ "name" : "decr",		"feature" : 0 },
+		{ "name" : "decrsz",	"feature" : 0 },
+		{ "name" : "comr",		"feature" : 0 },
+		{ "name" : "bcr",		"feature" : 0 },
+		{ "name" : "btsc",		"feature" : 0 },
+		{ "name" : "bsr",		"feature" : 0 },
+		{ "name" : "btss",		"feature" : 0 },
+		{ "name" : "retw",		"feature" : CF_STOP },
+		{ "name" : "andwi",		"feature" : 0 },
+		{ "name" : "iorwi",		"feature" : 0 },
+		{ "name" : "xorwi",		"feature" : 0 },
+		{ "name" : "addwi",		"feature" : 0 },
+		{ "name" : "subwi",		"feature" : 0 },
+		{ "name" : "ldwi",		"feature" : 0 },
+		{ "name" : "lcall",		"feature" : 0 },
+		{ "name" : "ljump",		"feature" : 0 },
 	]
 
 	def __init__(self):
 		processor_t.__init__(self)
 
 		for i in range(len(self.reg_names)):
-			setattr(self, 'rtype_' + self.reg_names[i], i)
+			setattr(self, "rtype_" + self.reg_names[i], i)
 
 		self.regs_num = len(self.reg_names)
 		self.reg_first_sreg = self.rtype_bank
@@ -127,7 +127,7 @@ class fmd_processor_t(processor_t):
 		self.instruc_end = len(self.instruc)
 
 		for i in range(len(self.instruc)):
-			setattr(self, 'itype_' + self.instruc[i]['name'], i)
+			setattr(self, "itype_" + self.instruc[i]["name"], i)
 
 		self.icode_return = self.itype_ret
 
@@ -200,7 +200,7 @@ class fmd_processor_t(processor_t):
 
 	def ev_out_insn(self, ctx):
 		if self.is_conditional(ctx.insn):
-			ctx.out_char(' ')
+			ctx.out_char(" ")
 		ctx.out_mnemonic()
 
 		ctx.out_one_operand(0)
@@ -210,8 +210,8 @@ class fmd_processor_t(processor_t):
 			if op.type == o_void:
 				break
 
-			ctx.out_symbol(',')
-			ctx.out_char(' ')
+			ctx.out_symbol(",")
+			ctx.out_char(" ")
 			ctx.out_one_operand(i)
 
 		ctx.flush_outbuf()
