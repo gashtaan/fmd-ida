@@ -319,7 +319,7 @@ class fmd_processor_t(processor_t):
 
 			self.data_seg = segment_t()
 			self.data_seg.start_ea = data_addr
-			self.data_seg.endEA = data_addr + data_size
+			self.data_seg.end_ea = data_addr + data_size
 			self.data_seg.sel = setup_selector(data_base >> 4)
 			self.data_seg.type = SEG_IMEM
 			self.data_seg.align = saRelByte
