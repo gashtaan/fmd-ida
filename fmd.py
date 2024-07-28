@@ -77,38 +77,38 @@ class fmd_processor_t(processor_t):
 		{ "name" : "sleep",		"feature" : 0 },
 		{ "name" : "sttmd",		"feature" : 0 },
 		{ "name" : "ret",		"feature" : CF_STOP },
-		{ "name" : "ctlio",		"feature" : 0 },
+		{ "name" : "ctlio",		"feature" : CF_USE1 },
 		{ "name" : "clrw",		"feature" : 0 },
 		{ "name" : "reti",		"feature" : CF_STOP },
-		{ "name" : "clrr",		"feature" : 0 },
-		{ "name" : "str",		"feature" : 0 },
-		{ "name" : "andwr",		"feature" : 0 },
-		{ "name" : "iorwr",		"feature" : 0 },
-		{ "name" : "xorwr",		"feature" : 0 },
-		{ "name" : "rlr",		"feature" : 0 },
-		{ "name" : "rrr",		"feature" : 0 },
-		{ "name" : "swapr",		"feature" : 0 },
-		{ "name" : "ldr",		"feature" : 0 },
-		{ "name" : "incr",		"feature" : 0 },
-		{ "name" : "incrsz",	"feature" : 0 },
-		{ "name" : "addwr",		"feature" : 0 },
-		{ "name" : "subwr",		"feature" : 0 },
-		{ "name" : "decr",		"feature" : 0 },
-		{ "name" : "decrsz",	"feature" : 0 },
-		{ "name" : "comr",		"feature" : 0 },
-		{ "name" : "bcr",		"feature" : 0 },
-		{ "name" : "btsc",		"feature" : 0 },
-		{ "name" : "bsr",		"feature" : 0 },
-		{ "name" : "btss",		"feature" : 0 },
-		{ "name" : "retw",		"feature" : CF_STOP },
-		{ "name" : "andwi",		"feature" : 0 },
-		{ "name" : "iorwi",		"feature" : 0 },
-		{ "name" : "xorwi",		"feature" : 0 },
-		{ "name" : "addwi",		"feature" : 0 },
-		{ "name" : "subwi",		"feature" : 0 },
-		{ "name" : "ldwi",		"feature" : 0 },
-		{ "name" : "lcall",		"feature" : 0 },
-		{ "name" : "ljump",		"feature" : 0 },
+		{ "name" : "clrr",		"feature" : CF_CHG1 },
+		{ "name" : "str",		"feature" : CF_CHG1 },
+		{ "name" : "andwr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "iorwr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "xorwr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "rlr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "rrr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "swapr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "ldr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "incr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "incrsz",	"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "addwr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "subwr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "decr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "decrsz",	"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "comr",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "bcr",		"feature" : CF_CHG1 | CF_USE2 },
+		{ "name" : "btsc",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "bsr",		"feature" : CF_CHG1 | CF_USE2 },
+		{ "name" : "btss",		"feature" : CF_USE1 | CF_USE2 },
+		{ "name" : "retw",		"feature" : CF_USE1 | CF_STOP },
+		{ "name" : "andwi",		"feature" : CF_USE1 },
+		{ "name" : "iorwi",		"feature" : CF_USE1 },
+		{ "name" : "xorwi",		"feature" : CF_USE1 },
+		{ "name" : "addwi",		"feature" : CF_USE1 },
+		{ "name" : "subwi",		"feature" : CF_USE1 },
+		{ "name" : "ldwi",		"feature" : CF_USE1 },
+		{ "name" : "lcall",		"feature" : CF_USE1 | CF_CALL },
+		{ "name" : "ljump",		"feature" : CF_USE1 | CF_STOP },
 	]
 
 	def __init__(self):
@@ -157,8 +157,14 @@ class fmd_processor_t(processor_t):
 		for i in range(4):
 			op = insn.ops[i]
 			if op.type == o_mem:
+				access = dr_R
+				if feature & (CF_CHG1 << i):
+					access = dr_W
+				elif insn.itype in [ self.itype_andwr, self.itype_iorwr, self.itype_xorwr, self.itype_rlr, self.itype_rrr, self.itype_swapr, self.itype_ldr, self.itype_incr, self.itype_incrsz, self.itype_addwr, self.itype_subwr, self.itype_decr, self.itype_decrsz, self.itype_comr ] and insn.Op2.value == 1:
+					access = dr_W
+
 				op_ea = self.data_seg.start_ea + op.addr
-				insn.add_dref(op_ea, op.offb, dr_R)
+				insn.add_dref(op_ea, op.offb, access)
 				insn.create_op_data(op_ea, op)
 
 				if op.addr == 0x0A:
