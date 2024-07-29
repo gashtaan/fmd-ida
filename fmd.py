@@ -134,22 +134,22 @@ class fmd_processor_t(processor_t):
 	def ev_emu_insn(self, insn):
 		feature = insn.get_canon_feature()
 
-		def handle_sreg_change(insn, reg, shift):
-			if (insn.itype == self.itype_bcr or insn.itype == self.itype_bsr) and (insn.Op2.value == shift or insn.Op2.value == shift + 1):
+		def handle_sreg_change(insn, reg, lbit, ubit):
+			if (insn.itype == self.itype_bcr or insn.itype == self.itype_bsr) and (insn.Op2.value in range(lbit, ubit + 1)):
 				v = get_sreg(insn.ea, reg)
 				if v == BADSEL:
 					v = 0
 				if insn.itype == self.itype_bcr:
-					v = v & ~(1 << (insn.Op2.value - shift));
+					v = v & ~(1 << (insn.Op2.value - lbit));
 				else:
-					v = v | (1 << (insn.Op2.value - shift));
+					v = v | (1 << (insn.Op2.value - lbit));
 				self.update_sreg(insn, reg, v)
 				return True
 
 			elif insn.itype == self.itype_str:
 				prev_opcode = get_wide_byte(insn.ea - 1)
 				if (prev_opcode >> 8) == 0x2A:
-					self.update_sreg(insn, reg, ((prev_opcode & 0xFF) >> shift))
+					self.update_sreg(insn, reg, ((prev_opcode & 0xFF) >> lbit))
 				return True
 
 			return False
@@ -169,10 +169,10 @@ class fmd_processor_t(processor_t):
 
 				if op.addr == 0x0A:
 					# PCLATH change
-					handle_sreg_change(insn, self.rtype_pclath, 3)
+					handle_sreg_change(insn, self.rtype_pclath, 0, 7)
 				elif op.addr == 0x03:
 					# PAGE change
-					handle_sreg_change(insn, self.rtype_bank, 5)
+					handle_sreg_change(insn, self.rtype_bank, 5, 6)
 
 			if op.type == o_near:
 				ftype = fl_JN
@@ -345,7 +345,7 @@ class fmd_processor_t(processor_t):
 		pclath = get_sreg(ea, self.rtype_pclath)
 		if pclath == BADSEL:
 			pclath = 0
-		return (pclath << 11) | address
+		return ((pclath >> 3) << 11) | address
 
 	@staticmethod
 	def is_conditional(insn):
